@@ -8,6 +8,12 @@
             flex-wrap: wrap;
         }
 
+        .pile{
+            display: flex;
+            width: 100px;
+            margin: 10px;
+        }
+
         .card{
             height: 165px;
             width: 100px;
@@ -26,34 +32,44 @@
 <body>
 
     <div class="board">
+        <div class="pile"></div>
+        <div class="pile"></div>
+        <div class="pile"></div>
+        <div class="pile"></div>
+        <div class="pile"></div>
+        <div class="pile"></div>
+        <div class="pile"></div>
+
     </div>
 <script>
     const suits = ['h', 'd', 's', 'c'];
     const values = [2,3,4,5,6,7,8,9,10,11,12,13,14];
-    const deck = [];
 
-    suits.forEach(suit => {
-        values.forEach(value =>{
-            deck.push([suit, value]);
-        });
-    });
+    let piles = [[],[],[],[],[],[],[]];
+    let drawPool = [];
 
-    // shuffle the deck
+    // still need to account for whether or not card is visible
 
-    // sort the cards into piles - 7 piles, and which is on the top
+
+
+    
+
 
     // display the sorted cards
 
     function init(){
         var boardDOM = document.querySelector('.board');
+        const deck = [];
 
-        deck.forEach(card => {
-            boardDOM.innerHTML += `
-                <div class='card'>
-                    ${card[0]} ${card[1]}
-                </div>
-            `;
+        suits.forEach(suit => {
+        values.forEach(value =>{
+            deck.push([suit, value]);
         });
+    });
+
+        const shuffledDeck = shuffleDeck(deck);
+        dealPiles(piles, shuffledDeck);
+
     }
 
     function shuffleDeck(deck){
@@ -66,11 +82,37 @@
         }
         return shuffledDeck;
     }
+
+
+    // sort the cards into piles - 7 piles, and which is on the top
+    function dealPiles(piles, deck){
+        piles.forEach(function(pile, index){
+            var doTimes = index;
+            for(var i = 0; i <= doTimes; i++){
+                piles[index].push(deck.pop());
+            }
+        });
+    }
+
+
+    function drawPiles(piles){
+        var pilesDOM = document.querySelectorAll('.pile');
+        piles.forEach((pile, index) => {
+            pile.forEach(card => {
+                pilesDOM[index].innerHTML += 
+                `
+                    <div class='card'>
+                    ${card[0]} ${card[1]}
+                    </div>
+                `;
+            });
+        });
+    }
+    
     init();
 
-    console.log(deck);
-    console.log(shuffleDeck(deck));
-
+    console.log(piles);
+    
 </script>
 </body>
 </html>
