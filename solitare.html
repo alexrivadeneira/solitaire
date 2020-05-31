@@ -3,6 +3,13 @@
 <head>
     <style>
 
+        .testCard{
+            background: url('card-imgs.png');
+            width: 949px;
+            height: 392px;
+        }
+
+
         .board{
             display: flex;
             flex-wrap: wrap;
@@ -11,13 +18,13 @@
         .pile{
             display: flex;
             width: 100px;
-            margin: 10px;
+            margin: 5px;
             flex-direction: column;
         }
 
         .card{
-            height: 135px;
-            width: 100px;
+            width: 73px;
+            height: 98px;
             /* border: 1px solid #000; */
             /* border-radius: 15px; */
             margin: 5px;
@@ -34,7 +41,7 @@
         } */
 
         .card:not(:first-child){
-            margin-top: -115px;
+            margin-top: -78px;
         }
 
 
@@ -45,6 +52,10 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 </head>
 <body>
+
+    <div class="testCard"></div>
+
+    <div class="testCardArea"></div>
 
     <div class="board">
         <div 
@@ -115,6 +126,21 @@
 
     let selectedPile = null;
     let currDraggedOverPile = null;
+
+    const CARD_SIZE = [73, 98];
+    const CARD_CENTER = [36.5, 49];
+
+    function getBackgroundCoordsForCard(suit, value){
+        const convertSuitToPosValue = {
+            c: 0,
+            s: 1,
+            h: 2,
+            d: 3
+        };
+        const suitValue = convertSuitToPosValue[suit];
+        return [CARD_SIZE[0] * suit, CARD_SIZE[1] * value];
+    }
+
 
     // still need to account for whether or not card is visible
 
