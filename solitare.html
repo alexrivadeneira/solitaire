@@ -1,25 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+
+        .board{
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .card{
+            height: 165px;
+            width: 100px;
+            border: 1px solid #000;
+            border-radius: 15px;
+            margin: 5px;
+        }
+
+
+    </style>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
 </head>
 <body>
+
+    <div class="board">
+    </div>
 <script>
     const suits = ['h', 'd', 's', 'c'];
     const values = [2,3,4,5,6,7,8,9,10,11,12,13,14];
     const deck = [];
+
     suits.forEach(suit => {
         values.forEach(value =>{
             deck.push([suit, value]);
-        })
+        });
     });
 
+    // shuffle the deck
+
+    // sort the cards into piles - 7 piles, and which is on the top
+
+    // display the sorted cards
+
+    function init(){
+        var boardDOM = document.querySelector('.board');
+
+        deck.forEach(card => {
+            boardDOM.innerHTML += `
+                <div class='card'>
+                    ${card[0]} ${card[1]}
+                </div>
+            `;
+        });
+    }
+
+    function shuffleDeck(deck){
+        let unshuffledDeck = [...deck];
+        let shuffledDeck = [];
+        while(unshuffledDeck.length > 0){
+            let randomSelect = Math.floor(Math.random() * unshuffledDeck.length);
+            shuffledDeck.push(unshuffledDeck[randomSelect]);
+            unshuffledDeck.splice(randomSelect, 1);
+        }
+        return shuffledDeck;
+    }
+    init();
+
     console.log(deck);
+    console.log(shuffleDeck(deck));
+
 </script>
 </body>
 </html>
