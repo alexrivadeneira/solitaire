@@ -38,13 +38,66 @@
 <body>
 
     <div class="board">
-        <div class="pile" id="0" ondragover="handleDragOver(this)"></div>
-        <div class="pile" id="1" ondragover="handleDragOver(this)"></div>
-        <div class="pile" id="2" ondragover="handleDragOver(this)"></div>
-        <div class="pile" id="3" ondragover="handleDragOver(this)"></div>
-        <div class="pile" id="4" ondragover="handleDragOver(this)"></div>
-        <div class="pile" id="5" ondragover="handleDragOver(this)"></div>
-        <div class="pile" id="6" ondragover="handleDragOver(this)"></div>
+        <div 
+        class="pile" 
+        id="0" 
+        ondragstart="event.dataTransfer.setData('text/plain', this.id); selectedPile = this.id; console.log(this.id)" ondragover="handleDragOver(this)"
+        ondrop="handleDrop()"
+        >
+        </div>
+
+        <div 
+        class="pile" 
+        id="1" 
+        ondragover="currDraggedOverPile = this.id; return false;"
+        ondragenter="return false;"
+        ondrop="handleDrop()"
+        >
+        </div>
+
+        <div 
+        class="pile" 
+        id="2" 
+        ondragstart="setStateSelectedPile(this)" ondragover="handleDragOver(this)"
+        ondrop="handleDrop()"
+        >        
+        </div>
+
+
+        <div 
+        class="pile" 
+        id="3" 
+        ondragstart="setStateSelectedPile(this)" ondragover="handleDragOver(this)"
+        ondrop="handleDrop()"
+        >        
+        </div>
+
+        <div 
+        class="pile" 
+        id="4" 
+        ondragstart="setStateSelectedPile(this)" ondragover="handleDragOver(this)"
+        ondrop="handleDrop()"
+
+        >        
+        </div>
+
+        <div 
+        class="pile" 
+        id="5" 
+        ondragstart="setStateSelectedPile(this)" ondragover="handleDragOver(this)"
+        ondrop="handleDrop()"
+
+        >        
+        </div>
+
+        <div 
+        class="pile" 
+        id="6" 
+        ondragstart="setStateSelectedPile(this)" ondragover="handleDragOver(this)"
+        ondrop="handleDrop()"
+
+        >        
+        </div>
 
 
     </div>
@@ -55,6 +108,9 @@
 
     let piles = [[],[],[],[],[],[],[]];
     let drawPool = [];
+
+    let selectedPile = null;
+    let currDraggedOverPile = null;
 
     // still need to account for whether or not card is visible
 
@@ -101,8 +157,18 @@
         });
     }
 
+    function setStateSelectedPile(e){
+        selectedPile = e.id; 
+        // console.log("@@@ selected pile", selectedPile);
+    }
+
     function drawPiles(piles){
         var pilesDOM = document.querySelectorAll('.pile');
+        // first clear anything in the piles so we don't keep adding duplicate cards
+        piles.forEach((pile, index) => {
+            pilesDOM[index].innerHTML = '';
+        });
+
         piles.forEach((pile, index) => {
             pile.forEach(card => {
                 pilesDOM[index].innerHTML += 
@@ -116,9 +182,21 @@
     }
 
     function handleDragOver(e){
-        console.log('drag over event');
-        console.log("drag over: ", e);
-        console.log(e.id)
+        // console.log('drag over event');
+        // console.log("drag over: ", e);
+        // console.log(e.id)
+        currDraggedOverPile = e.id;
+    }
+
+    function handleDropCardOnNewPile(pileFromIdx, pileToIdx){
+        console.log("TO: ", pileToIdx, "FROM: ", pileFromIdx);piles[pileToIdx].push(piles[pileFromIdx].pop());
+        drawPiles(piles);
+    }
+
+    function handleDrop(){
+        // preventDefault();
+        console.log("#### DROP");
+        handleDropCardOnNewPile(selectedPile, currDraggedOverPile);
     }
 
     // when you interact with a pile:
@@ -141,7 +219,7 @@
     init();
     drawPiles(piles);
 
-    console.log(piles);
+    // console.log(piles);
     
 </script>
 </body>
