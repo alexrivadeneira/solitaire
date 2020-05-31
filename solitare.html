@@ -21,11 +21,7 @@
             border: 1px solid #000;
             border-radius: 15px;
             margin: 5px;
-
-        }
-
-        .card:first-child{
-            background: red;
+            background: #fff;
         }
 
         .card:not(:first-child){
@@ -42,13 +38,14 @@
 <body>
 
     <div class="board">
-        <div class="pile"></div>
-        <div class="pile"></div>
-        <div class="pile"></div>
-        <div class="pile"></div>
-        <div class="pile"></div>
-        <div class="pile"></div>
-        <div class="pile"></div>
+        <div class="pile" id="0" ondragover="handleDragOver(this)"></div>
+        <div class="pile" id="1" ondragover="handleDragOver(this)"></div>
+        <div class="pile" id="2" ondragover="handleDragOver(this)"></div>
+        <div class="pile" id="3" ondragover="handleDragOver(this)"></div>
+        <div class="pile" id="4" ondragover="handleDragOver(this)"></div>
+        <div class="pile" id="5" ondragover="handleDragOver(this)"></div>
+        <div class="pile" id="6" ondragover="handleDragOver(this)"></div>
+
 
     </div>
 
@@ -110,13 +107,36 @@
             pile.forEach(card => {
                 pilesDOM[index].innerHTML += 
                 `
-                        <div class='card'>
+                        <div class='card' draggable='true'>
                         ${card[0]} ${card[1]}
                         </div>
                 `;
             });
         });
     }
+
+    function handleDragOver(e){
+        console.log('drag over event');
+        console.log("drag over: ", e);
+        console.log(e.id)
+    }
+
+    // when you interact with a pile:
+        // drag a card from one pile to another eligible pile
+            // drag a card to an empty pile
+        // flip the card that's been exposed
+
+    // drag logic - to simply move card without taking into account values
+
+    // pick up the visible card off a pile
+    // drag and hover over new pile
+    // get the new pile id
+    // update the pile state with the new card
+    // redraw the piles
+
+    // displaying the pile
+        // after the initial deal, the top card should be exposed
+
     
     init();
     drawPiles(piles);
