@@ -12,6 +12,7 @@
             display: flex;
             width: 100px;
             margin: 10px;
+            flex-direction: column;
         }
 
         .card{
@@ -20,6 +21,15 @@
             border: 1px solid #000;
             border-radius: 15px;
             margin: 5px;
+
+        }
+
+        .card:first-child{
+            background: red;
+        }
+
+        .card:not(:first-child){
+            margin-top: -145px;
         }
 
 
@@ -41,6 +51,7 @@
         <div class="pile"></div>
 
     </div>
+
 <script>
     const suits = ['h', 'd', 's', 'c'];
     const values = [2,3,4,5,6,7,8,9,10,11,12,13,14];
@@ -83,7 +94,6 @@
         return shuffledDeck;
     }
 
-
     // sort the cards into piles - 7 piles, and which is on the top
     function dealPiles(piles, deck){
         piles.forEach(function(pile, index){
@@ -94,22 +104,22 @@
         });
     }
 
-
     function drawPiles(piles){
         var pilesDOM = document.querySelectorAll('.pile');
         piles.forEach((pile, index) => {
             pile.forEach(card => {
                 pilesDOM[index].innerHTML += 
                 `
-                    <div class='card'>
-                    ${card[0]} ${card[1]}
-                    </div>
+                        <div class='card'>
+                        ${card[0]} ${card[1]}
+                        </div>
                 `;
             });
         });
     }
     
     init();
+    drawPiles(piles);
 
     console.log(piles);
     
