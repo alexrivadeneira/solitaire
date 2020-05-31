@@ -24,6 +24,14 @@
             background: #fff;
         }
 
+        .red{
+            border: 3px solid red;
+        }
+
+        .black{
+            border: 3px solid black;
+        }
+
         .card:not(:first-child){
             margin-top: -145px;
         }
@@ -166,9 +174,12 @@
 
         piles.forEach((pile, index) => {
             pile.forEach(card => {
+                if(card[0] === 'c' || card[0] === 's'){
+                    
+                }
                 pilesDOM[index].innerHTML += 
                 `
-                        <div class='card' draggable='true'>
+                        <div class='card ${card[0] === ('c' || 's') ? 'red' : 'black'}' draggable='true'>
                         ${card[0]} ${card[1]}
                         </div>
                 `;
