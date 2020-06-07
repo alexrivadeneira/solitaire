@@ -33,15 +33,6 @@
             background: url('card-imgs.png');
         }
 
-
-        /* .red{
-            border: 3px solid red;
-        }
-
-        .black{
-            border: 3px solid black;
-        } */
-
         .card:not(:first-child){
             margin-top: -78px;
         }
@@ -54,8 +45,6 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 </head>
 <body>
-
-    <div class="card-test card exposed "></div>
 
     <div class="board">
         <div 
@@ -205,11 +194,10 @@
                 if(idx === pile.length - 1){
 
                     var coords = getBackgroundCoordsForCard(card[0], card[1]);
-                    console.log('##### ', coords);
                     pilesDOM[index].innerHTML += 
                 `
                         <div class='card' style='background: url("card-imgs.png"); background-position-y:${coords[0]}px; background-position-x:${coords[1]}px;' draggable='true'>
-                            <strong><span style="color: #bada55; background: #000;">${card[0]} ${card[1]} <br/>${coords[0]} ${coords[1]} </span></strong>
+                            <strong><span style="color: #bada55; background: #000;">${card[0]} ${card[1]}</span></strong>
 
                         </div>
                 `;
@@ -217,7 +205,6 @@
                     pilesDOM[index].innerHTML += 
                 `
                         <div class='card ${card[0] === ('c' || 's') ? 'red' : 'black'}' draggable='true'>
-                        ${card[0]} ${card[1]}
                         </div>
                 `;
                 }
