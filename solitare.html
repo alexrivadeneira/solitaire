@@ -37,6 +37,19 @@
             margin-top: -78px;
         }
 
+        .stacks{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .stack{
+            width: 73px;
+            height: 98px;
+            border: 2px solid #fff;
+            margin: 10px;
+        }
+
 
     </style>
     <meta charset='utf-8'>
@@ -46,7 +59,21 @@
 </head>
 <body>
 
+    <div class="stacks">
+        <div 
+        id="c-stack" 
+        ondragstart="event.dataTransfer.setData('text/plain', this.id);selectedPile = this.id;"         
+        ondragover="currDraggedOverPile = this.id; return false;"
+        ondrop="handleStackDrop()"
+        class="stack c-stack"></div>
+        <div class="stack s-stack"></div>
+        <div class="stack h-stack"></div>
+        <div class="stack d-stack"></div>
+    </div>
+
+
     <div class="board">
+
         <div 
         class="pile" 
         id="0" 
@@ -116,6 +143,13 @@
     let selectedPile = null;
     let currDraggedOverPile = null;
 
+    let stacks = {
+        h: null,
+        d: null,
+        c: null,
+        s: null,
+    }
+
     const CARD_SIZE = [98, 73];
     const CARD_CENTER = [36.5, 49];
 
@@ -128,6 +162,17 @@
         };
         const suitValue = convertSuitToPosValue[suit];
         return [-CARD_SIZE[0] * suitValue, -CARD_SIZE[1] * value];
+    }
+
+    function updateStacks(stack, value){
+        stacks[stack] = value;
+    }
+
+    function drawStacks(){
+        // var stacks = document.querySelector
+        for(entry in stacks){
+            console.log(entry, stacks[entry]);
+        }
     }
 
 
@@ -229,6 +274,10 @@
         // preventDefault();
         console.log("#### DROP");
         handleDropCardOnNewPile(selectedPile, currDraggedOverPile);
+    }
+
+    function handleStackDrop(){
+        console.log('dropping on stack');
     }
 
     // when you interact with a pile:
