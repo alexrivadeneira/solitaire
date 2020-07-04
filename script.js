@@ -153,7 +153,7 @@
                     data-value='${lastCard[1]}';
                     data-exposed='${lastCard[2]}';
                     onclick='handleCardClick(this)'
-                    draggable='${lastCard[2]}'>
+                    >
                         <strong><span style="color: #bada55; background: #000;">${lastCard[0]} ${lastCard[1]}</span></strong>
     
                     </div>`
