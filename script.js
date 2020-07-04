@@ -24,9 +24,9 @@
         return [-CARD_SIZE[0] * suitValue, -CARD_SIZE[1] * value];
     }
 
-    function updateStacks(stack, card){
-        stacks[stack] = card;
-    }
+    // function updateStacks(stack, card){
+    //     stacks[stack] = card;
+    // }
 
 
 
@@ -132,6 +132,41 @@
         });
     }
 
+    function drawStacks(stacks){
+        var stacksDOM = document.querySelectorAll('.stack');
+        // first clear anything in the stacks so we don't keep adding duplicate cards
+        stacks.forEach((stack, index) => {
+            stacksDOM[index].innerHTML = '';
+        });
+
+        // get last card in each stack and draw
+
+        console.log('stacs >>> ', stacks);
+
+        stacks.forEach((stack, index) => {
+            if(stack.length > 0){
+                var lastCard = stack[stack.length - 1];
+                console.log(">>> lastCard ", lastCard);
+                var coords = getBackgroundCoordsForCard(lastCard[0], lastCard[1]);
+    
+                stacksDOM[index].innerHTML = `
+                    <div class='card' 
+                    style='background: url("card-imgs.png"); 
+                    background-position-y:${coords[0]}px; background-position-x:${coords[1]}px;' 
+                    data-suit='${lastCard[0]}';
+                    data-value='${lastCard[1]}';
+                    data-exposed='${lastCard[2]}';
+                    onclick='handleCardClick(this)'
+                    draggable='${lastCard[2]}'>
+                        <strong><span style="color: #bada55; background: #000;">${lastCard[0]} ${lastCard[1]}</span></strong>
+    
+                    </div>`
+            }
+
+            });
+    }
+    
+
     function handleCardClick(card){
         // check if card is last in the pile
         const suit = card.getAttribute('data-suit');
@@ -155,6 +190,10 @@
 
     }
 
+    function checkIsValidMove(){
+
+    }
+
     function handleDragOver(e){
         // console.log('drag over event');
         // console.log("drag over: ", e);
@@ -174,39 +213,45 @@
     }
 
     function handleStackDrop(){
+        console.log('### attempting stack drop');
         // get current card being dropped (from the pile)
         // check current item in that stack
         // check if it's the next card 
         // if so, update the stack 
         // and redraw the stacks
 
-        console.log('dropping on stack');
 
         // TODO: Update this to handle dragging more than the last card on a pile
         var currPile = piles[selectedPile];
         var currCard = currPile[currPile.length - 1];
         var isNextCard = isNextStackCard(stacks[currDraggedOverStack], currCard);
 
-        console.log(">>>> ", stacks[currDraggedOverStack], currCard);
-
         if(isNextCard){
-            updateStacks(currDraggedOverStack, currCard);
+            console.log('>> is valid stack drop');
+            // updateStacks(currDraggedOverStack, currCard);
             moveCardFromPileToStack(selectedPile, currDraggedOverStack);
-            drawPiles();
-            drawStacks();
-            console.log('is next card');
+            drawPiles(piles);
+            drawStacks(stacks);
         } else {
             console.log('no dice');
         }
     }
 
     function moveCardFromPileToStack(pileFrom, stackTo){
-        stacks[stackTo] = piles[pileFrom].pop();
+        stacks[stackTo].push(piles[pileFrom].pop());
+        console.log("stacks after update ", stacks);
     }
 
     function isNextStackCard(currCardOnStack, droppingCard){
+
         if(currCardOnStack.length === 0 && droppingCard[1] === 0){
             return true;
+        }
+
+        if(!currCardOnStack){
+            if(droppingCard[1] === 0){
+                return true;
+            }
         }
 
         if(currCardOnStack[1] === droppingCard[1] && currCardOnStack[0] === droppingCard[0] + 1){
