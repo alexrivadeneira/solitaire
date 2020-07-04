@@ -266,7 +266,7 @@
 
         piles.forEach((pile, index) => {
             pile.forEach((card, idx) => {
-                // expose last card
+
                 if(card[2] === true){
 
                     var coords = getBackgroundCoordsForCard(card[0], card[1]);
@@ -349,6 +349,9 @@
         return false;
     }
 
+
+    
+
     // check if valid drop
 
     // allow drops onto the top stacks
@@ -375,6 +378,12 @@
     
     init();
     drawPiles(piles);
+
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('click', event => {
+            console.log('card click', event);
+        });
+    });
 
     // console.log(piles);
     
