@@ -8,7 +8,9 @@
     let currDraggedOverPile = null;
     let currDraggedOverStack = null;
 
-    let stacks = [[],[],[],[]]
+    let stacks = [[],[],[],[]];
+
+    let remainingDeck = [];
 
     const CARD_SIZE = [98, 73];
     const CARD_CENTER = [36.5, 49];
@@ -79,6 +81,8 @@
         piles.forEach(pile => {
             pile[pile.length - 1][2] = true;
         })
+
+        remainingDeck = deck;
     }
 
     function setStateSelectedPile(e){
