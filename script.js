@@ -149,7 +149,7 @@
                 console.log(">>> lastCard ", lastCard);
                 var coords = getBackgroundCoordsForCard(lastCard[0], lastCard[1]);
     
-                stacksDOM[index].innerHTML = `
+                stacksDOM.innerHTML = `
                     <div class='card' 
                     style='background: url("card-imgs.png"); 
                     background-position-y:${coords[0]}px; background-position-x:${coords[1]}px;' 
