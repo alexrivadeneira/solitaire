@@ -83,7 +83,6 @@
 
     function setStateSelectedPile(e){
         selectedPile = e.id; 
-        // console.log("@@@ selected pile", selectedPile);
     }
 
     function drawPiles(piles){
@@ -141,12 +140,9 @@
 
         // get last card in each stack and draw
 
-        console.log('stacs >>> ', stacks);
-
         stacks.forEach((stack, index) => {
             if(stack.length > 0){
                 var lastCard = stack[stack.length - 1];
-                console.log(">>> lastCard ", lastCard);
                 var coords = getBackgroundCoordsForCard(lastCard[0], lastCard[1]);
     
                 stacksDOM[index].innerHTML = `
@@ -175,12 +171,6 @@
 
         const currPileData = piles[parseInt(pileId)];  
         const lastCardInPile = currPileData[currPileData.length - 1];
-    
-
-        console.log(parseInt(lastCardInPile[1]) === value);
-        if(lastCardInPile[0] === suit && lastCardInPile[1] === value){
-            console.log('last card');
-        }
 
         card[2] = true;
         
@@ -224,8 +214,10 @@
         // TODO: Update this to handle dragging more than the last card on a pile
         var currPile = piles[selectedPile];
         var currCard = currPile[currPile.length - 1];
+
+        console.log('>>> currCard ', currCard);
         // var currStack
-        var isNextCard = isNextStackCard(stacks[currDraggedOverStack], currCard);
+        var isNextCard = isNextStackCard(currDraggedOverStack, currCard);
 
         if(isNextCard){
             console.log('>> is valid stack drop');
@@ -240,24 +232,27 @@
 
     function moveCardFromPileToStack(pileFrom, stackTo){
         stacks[stackTo].push(piles[pileFrom].pop());
-        console.log("stacks after update ", stacks);
     }
 
-    function isNextStackCard(currCardOnStack, droppingCard){
+    function isNextStackCard(stack, droppingCard){
+        console.log("stack, droppingCard ", stack, droppingCard);
 
-        if(currCardOnStack.length === 0 && droppingCard[1] === 0){
+        const stackInt = parseInt(stack);
+        const stackData = stacks[stackInt];
+
+        if(stackData.length === 0 && droppingCard[1] === 0){
+            return true;
+        } else if (stackData.length === 0){
+            return false;
+        }
+
+        const lastCardOnStack = stackData[stackData.length - 1];
+        console.log("lastCardonStack ", lastCardOnStack);
+
+        if(lastCardOnStack[0] === droppingCard[0] && parseInt(droppingCard[1]) === parseInt(lastCardOnStack[1]) + 1){
             return true;
         }
-
-        if(!currCardOnStack){
-            if(droppingCard[1] === 0){
-                return true;
-            }
-        }
-
-        if(currCardOnStack[1] === droppingCard[1] && currCardOnStack[0] === droppingCard[0] + 1){
-            return true;
-        }
+        console.log('invalid stack drop');
         return false;
     }
 

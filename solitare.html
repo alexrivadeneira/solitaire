@@ -63,7 +63,7 @@
         <div 
             id="0" 
             ondragstart="event.dataTransfer.setData('text/plain', this.id);selectedPile = this.id;"         
-            ondragover="currDraggedOverStack = this.id; return false;"
+            ondragover="currDraggedOverStack = this.id; return false; console.log(currDraggedOverStack);"
             ondrop="handleStackDrop()"
             class="stack"
         >
