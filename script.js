@@ -224,6 +224,7 @@
         // TODO: Update this to handle dragging more than the last card on a pile
         var currPile = piles[selectedPile];
         var currCard = currPile[currPile.length - 1];
+        // var currStack
         var isNextCard = isNextStackCard(stacks[currDraggedOverStack], currCard);
 
         if(isNextCard){
