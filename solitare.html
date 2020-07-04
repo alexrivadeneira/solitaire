@@ -50,6 +50,14 @@
             margin: 10px;
         }
 
+        .deck{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            background: red;
+            float: left;
+        }
+
 
     </style>
     <meta charset='utf-8'>
@@ -59,7 +67,13 @@
 </head>
 <body>
 
+    <div class="deck">
+        <div class="card"></div>
+    </div>
+
     <div class="stacks">
+
+
         <div 
             id="0" 
             ondragstart="event.dataTransfer.setData('text/plain', this.id);selectedPile = this.id;"         
@@ -93,6 +107,9 @@
         >
         </div>
     </div>
+
+
+
 
 
     <div class="board">
