@@ -217,7 +217,8 @@
 
         suits.forEach(suit => {
         values.forEach(value =>{
-            deck.push([suit, value]);
+            // suit, value, isvisible?
+            deck.push([suit, value, false]);
         });
     });
 
@@ -245,6 +246,10 @@
                 piles[index].push(deck.pop());
             }
         });
+        // mark each last card on the pile as visible
+        piles.forEach(pile => {
+            pile[pile.length - 1][2] = true;
+        })
     }
 
     function setStateSelectedPile(e){
@@ -343,6 +348,13 @@
         }
         return false;
     }
+
+    // check if valid drop
+
+    // allow drops onto the top stacks
+
+    // keep track of whether cards are displayed or not
+        // card at top of stack, but not flipped over
 
     // when you interact with a pile:
         // drag a card from one pile to another eligible pile
