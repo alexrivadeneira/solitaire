@@ -61,14 +61,23 @@
 
     <div class="stacks">
         <div 
-        id="c-stack" 
-        ondragstart="event.dataTransfer.setData('text/plain', this.id);selectedPile = this.id;"         
-        ondragover="currDraggedOverPile = this.id; return false;"
-        ondrop="handleStackDrop()"
+            id="0" 
+            ondragstart="event.dataTransfer.setData('text/plain', this.id);selectedPile = this.id;"         
+            ondragover="currDraggedOverStack = this.id; return false;"
+            ondrop="handleStackDrop()"
         class="stack c-stack"></div>
-        <div class="stack s-stack"></div>
-        <div class="stack h-stack"></div>
-        <div class="stack d-stack"></div>
+        <div 
+            id="1"
+            class="stack s-stack">
+        </div>
+        <div 
+            id="2"
+            class="stack h-stack">
+        </div>
+        <div 
+            id="3"
+            class="stack d-stack">
+        </div>
     </div>
 
 
@@ -142,13 +151,9 @@
 
     let selectedPile = null;
     let currDraggedOverPile = null;
+    let currDraggedOverStack = null;
 
-    let stacks = {
-        h: null,
-        d: null,
-        c: null,
-        s: null,
-    }
+    let stacks = [[],[],[],[]]
 
     const CARD_SIZE = [98, 73];
     const CARD_CENTER = [36.5, 49];
@@ -164,16 +169,37 @@
         return [-CARD_SIZE[0] * suitValue, -CARD_SIZE[1] * value];
     }
 
-    function updateStacks(stack, value){
-        stacks[stack] = value;
+    function updateStacks(stack, card){
+        stacks[stack] = card;
     }
 
-    function drawStacks(){
-        // var stacks = document.querySelector
-        for(entry in stacks){
-            console.log(entry, stacks[entry]);
-        }
+    function drawStacks(stacks){
+        var stacksDOM = document.querySelectorAll('.stack');
+        // first clear anything in the piles so we don't keep adding duplicate cards
+        stacks.forEach((stack, index) => {
+            stacksDOM[index].innerHTML = '';
+        });
+
+        stacks.forEach((stack, index) => {
+
+            if(stack.length === 0){
+                stacksDOM[index].innerHTML = '';
+            } else {
+                var coords = getBackgroundCoordsForCard(stack[0][0], stack[0][1]);
+                stacksDOM.innerHTML += `
+                    <div class='card' style='background: url("card-imgs.png"); background-position-y:${coords[0]}px; background-position-x:${coords[1]}px;' draggable='true'>
+                            <strong><span style="color: #bada55; background: #000;">${card[0]} ${card[1]}</span></strong>
+
+                        </div>
+                `;
+            }
+
+
+        });
+
+
     }
+
 
 
     // still need to account for whether or not card is visible
@@ -277,7 +303,45 @@
     }
 
     function handleStackDrop(){
+        // get current card being dropped (from the pile)
+        // check current item in that stack
+        // check if it's the next card 
+        // if so, update the stack 
+        // and redraw the stacks
+
         console.log('dropping on stack');
+
+        // TODO: Update this to handle dragging more than the last card on a pile
+        var currPile = piles[selectedPile];
+        var currCard = currPile[currPile.length - 1];
+        var isNextCard = isNextStackCard(stacks[currDraggedOverStack], currCard);
+
+        console.log(">>>> ", stacks[currDraggedOverStack], currCard);
+
+        if(isNextCard){
+            updateStacks(currDraggedOverStack, currCard);
+            moveCardFromPileToStack(selectedPile, currDraggedOverStack);
+            drawPiles();
+            drawStacks();
+            console.log('is next card');
+        } else {
+            console.log('no dince');
+        }
+    }
+
+    function moveCardFromPileToStack(pileFrom, stackTo){
+        stacks[stackTo] = piles[pileFrom].pop();
+    }
+
+    function isNextStackCard(currCardOnStack, droppingCard){
+        if(currCardOnStack.length === 0 && droppingCard[1] === 0){
+            return true;
+        }
+
+        if(currCardOnStack[1] === droppingCard[1] && currCardOnStack[0] === droppingCard[0] + 1){
+            return true;
+        }
+        return false;
     }
 
     // when you interact with a pile:
