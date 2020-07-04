@@ -28,36 +28,6 @@
         stacks[stack] = card;
     }
 
-    function drawStacks(stacks){
-        var stacksDOM = document.querySelectorAll('.stack');
-        // first clear anything in the piles so we don't keep adding duplicate cards
-        stacks.forEach((stack, index) => {
-            stacksDOM[index].innerHTML = '';
-        });
-
-        stacks.forEach((stack, index) => {
-
-            if(stack.length === 0){
-                stacksDOM[index].innerHTML = '';
-            } else {
-                var coords = getBackgroundCoordsForCard(stack[0][0], stack[0][1]);
-                stacksDOM.innerHTML += `
-                    <div class='card' 
-                    style='background: url("card-imgs.png"); background-position-y:${coords[0]}px; background-position-x:${coords[1]}px;' draggable='true'
-
-                    
-                    >
-                            <strong><span style="color: #bada55; background: #000;">${card[0]} ${card[1]}</span></strong>
-
-                        </div>
-                `;
-            }
-
-
-        });
-
-
-    }
 
 
 
@@ -129,6 +99,7 @@
                 if(card[2] === true){
 
                     var coords = getBackgroundCoordsForCard(card[0], card[1]);
+                    // only visible cards are draggable
                     pilesDOM[index].innerHTML += 
                 `
                         <div class='card' 
@@ -137,7 +108,7 @@
                         data-suit='${card[0]}';
                         data-value='${card[1]}';
                         data-exposed='${card[2]}';
-                        draggable='true'>
+                        draggable='${card[2]}'>
                             <strong><span style="color: #bada55; background: #000;">${card[0]} ${card[1]}</span></strong>
 
                         </div>
@@ -145,7 +116,7 @@
                 } else if (card[2] === false ) {
                     pilesDOM[index].innerHTML += 
                 `
-                        <div class='card ${card[0] === ('c' || 's') ? 'red' : 'black'}' draggable='true'>
+                        <div class='card ${card[0] === ('c' || 's') ? 'red' : 'black'}' draggable='false'>
                         </div>
                 `;
                 }
