@@ -108,6 +108,7 @@
                         data-suit='${card[0]}';
                         data-value='${card[1]}';
                         data-exposed='${card[2]}';
+                        onclick='handleCardClick(this)'
                         draggable='${card[2]}'>
                             <strong><span style="color: #bada55; background: #000;">${card[0]} ${card[1]}</span></strong>
 
@@ -116,13 +117,42 @@
                 } else if (card[2] === false ) {
                     pilesDOM[index].innerHTML += 
                 `
-                        <div class='card ${card[0] === ('c' || 's') ? 'red' : 'black'}' draggable='false'>
+                        <div class='card ${card[0] === ('c' || 's') ? 'red' : 'black'}' 
+                        draggable='false';   
+                        data-suit='${card[0]}';
+                        data-value='${card[1]}';
+                        data-exposed='${card[2]}';
+                        onclick='handleCardClick(this)'
+                        >
                         </div>
                 `;
                 }
 
             });
         });
+    }
+
+    function handleCardClick(card){
+        // check if card is last in the pile
+        const suit = card.getAttribute('data-suit');
+        const value = parseInt(card.getAttribute('data-value'));
+        const pileId = card.parentNode.id;
+
+        const currPileData = piles[parseInt(pileId)];  
+        const lastCardInPile = currPileData[currPileData.length - 1];
+    
+
+        console.log(parseInt(lastCardInPile[1]) === value);
+        if(lastCardInPile[0] === suit && lastCardInPile[1] === value){
+            console.log('last card');
+        }
+
+        card[2] = true;
+        
+        // update last card in pile 
+        currPileData[currPileData.length - 1][2] = true;
+        drawPiles(piles);
+
     }
 
     function handleDragOver(e){
@@ -166,7 +196,7 @@
             drawStacks();
             console.log('is next card');
         } else {
-            console.log('no dince');
+            console.log('no dice');
         }
     }
 
@@ -215,11 +245,5 @@
     init();
     drawPiles(piles);
 
-    document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('click', event => {
-            console.log('card click', event);
-        });
-    });
 
-    // console.log(piles);
     
