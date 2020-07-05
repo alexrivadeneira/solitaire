@@ -86,9 +86,9 @@
         remainingDeck = deck;
     }
 
-    function setStateSelectedPile(e){
-        selectedPile = e.id; 
-    }
+    // function setStateSelectedPile(e){
+    //     selectedPile = e.id; 
+    // }
 
     function drawPiles(piles){
         var pilesDOM = document.querySelectorAll('.pile');
