@@ -137,7 +137,6 @@
     }
 
     function getCardFromDeck(){
-        const deckDOMArea = document.querySelector('.deck-display');
         // put displayed card back in the deck
 
         // console.log('get card')
@@ -150,10 +149,26 @@
         }
 
         console.log(remainingDeck, remainingDeckDisplay)
+        drawDeckArea();
 
+    }
+
+    function drawDeckArea(){
+        const deckDOMArea = document.querySelector('.deck-display');
+        const deckBackDOMArea = document.querySelector('.deck-back');
+
+
+        if(remainingDeckDisplay.length === 0){
+            deckDOMArea.innerHTML = '';
+        }
+
+        if(remainingDeck.length === 0){
+            deckBackDOMArea.style.display = "none";
+        }
 
         const card = remainingDeckDisplay[0];
         var coords = getBackgroundCoordsForCard(card[0], card[1]);
+
 
         deckDOMArea.innerHTML = '';
         deckDOMArea.innerHTML += 
@@ -170,8 +185,7 @@
             >
                 <strong><span style="color: #bada55; background: #000;">${card[0]} ${card[1]}</span></strong>
 
-            </div>
-    `;
+            </div>`
     }
 
     function drawStacks(stacks){
@@ -264,6 +278,7 @@
         card[2] = true;
         piles[pileToIdx].push(card);
         drawPiles(piles);
+        drawDeckArea();
     }   
 
     // function handleDropCardOnNewPile(pileFromIdx, pileToIdx){
