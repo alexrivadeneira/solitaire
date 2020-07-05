@@ -114,7 +114,6 @@
                         data-exposed='${card[2]}';
                         onclick='handleCardClick(this)'
                         draggable='${card[2]}'>
-                            <strong><span style="color: #bada55; background: #000;">${card[0]} ${card[1]}</span></strong>
 
                         </div>
                 `;
@@ -183,7 +182,6 @@
             draggable='true'
             ondragstart="event.dataTransfer.setData('text/plain', this.id); selectedPile = 'deck';"  
             >
-                <strong><span style="color: #bada55; background: #000;">${card[0]} ${card[1]}</span></strong>
 
             </div>`
     }
@@ -211,7 +209,6 @@
                     data-exposed='${lastCard[2]}';
                     onclick='handleCardClick(this)'
                     >
-                        <strong><span style="color: #bada55; background: #000;">${lastCard[0]} ${lastCard[1]}</span></strong>
     
                     </div>`
             }
