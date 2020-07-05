@@ -165,7 +165,9 @@
             data-value='${card[1]}';
             data-exposed='${card[2]}';
             onclick='handleDeckClick(this)'
-            draggable='true'>
+            draggable='true'
+            ondragstart="event.dataTransfer.setData('text/plain', this.id); selectedPile = 'deck';"  
+            >
                 <strong><span style="color: #bada55; background: #000;">${card[0]} ${card[1]}</span></strong>
 
             </div>
@@ -238,15 +240,37 @@
     }
 
     function handleDropCardOnNewPile(pileFromIdx, pileToIdx){
-        console.log("TO: ", pileToIdx, "FROM: ", pileFromIdx);piles[pileToIdx].push(piles[pileFromIdx].pop());
+        console.log("TO: ", pileToIdx, "FROM: ", pileFromIdx);
+        piles[pileToIdx].push(piles[pileFromIdx].pop());
         drawPiles(piles);
     }
 
     function handleDrop(){
         // preventDefault();
         console.log("#### DROP");
-        handleDropCardOnNewPile(selectedPile, currDraggedOverPile);
+
+        if(selectedPile === 'deck'){
+            handleDropCardFromDeckOnPile(currDraggedOverPile);
+        } else {
+            handleDropCardOnNewPile(selectedPile, currDraggedOverPile);
+        }
+
     }
+
+    function handleDropCardFromDeckOnPile(pileToIdx){
+        console.log("TO: ", pileToIdx, "FROM: DECK");
+        // make the card visible
+        const card = remainingDeckDisplay.pop();
+        card[2] = true;
+        piles[pileToIdx].push(card);
+        drawPiles(piles);
+    }   
+
+    // function handleDropCardOnNewPile(pileFromIdx, pileToIdx){
+    //     console.log("TO: ", pileToIdx, "FROM: ", pileFromIdx);
+    //     piles[pileToIdx].push(piles[pileFromIdx].pop());
+    //     drawPiles(piles);
+    // }
 
     function handleStackDrop(){
         console.log('### attempting stack drop');
