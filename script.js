@@ -11,6 +11,7 @@
     let stacks = [[],[],[],[]];
 
     let remainingDeck = [];
+    let remainingDeckDisplay = [];
 
     const CARD_SIZE = [98, 73];
     const CARD_CENTER = [36.5, 49];
@@ -135,6 +136,42 @@
         });
     }
 
+    function getCardFromDeck(){
+        const deckDOMArea = document.querySelector('.deck-display');
+        // put displayed card back in the deck
+
+        // console.log('get card')
+        if(remainingDeckDisplay.length > 0){
+            remainingDeck.push(remainingDeckDisplay.pop())
+        } 
+        // pop out the next card
+        if(remainingDeck.length > 0){
+            remainingDeckDisplay.push(remainingDeck.shift());
+        }
+
+        console.log(remainingDeck, remainingDeckDisplay)
+
+
+        const card = remainingDeckDisplay[0];
+        var coords = getBackgroundCoordsForCard(card[0], card[1]);
+
+        deckDOMArea.innerHTML = '';
+        deckDOMArea.innerHTML += 
+    `
+            <div class='card' 
+            style='background: url("card-imgs.png"); 
+            background-position-y:${coords[0]}px; background-position-x:${coords[1]}px;' 
+            data-suit='${card[0]}';
+            data-value='${card[1]}';
+            data-exposed='${card[2]}';
+            onclick='handleDeckClick(this)'
+            draggable='true'>
+                <strong><span style="color: #bada55; background: #000;">${card[0]} ${card[1]}</span></strong>
+
+            </div>
+    `;
+    }
+
     function drawStacks(stacks){
         var stacksDOM = document.querySelectorAll('.stack');
         // first clear anything in the stacks so we don't keep adding duplicate cards
@@ -181,6 +218,11 @@
         // update last card in pile 
         currPileData[currPileData.length - 1][2] = true;
         drawPiles(piles);
+
+    }
+
+    function handleDeckClick(card){
+        console.log('clicking the card');
 
     }
 
@@ -260,31 +302,6 @@
         return false;
     }
 
-
-    
-
-    // check if valid drop
-
-    // allow drops onto the top stacks
-
-    // keep track of whether cards are displayed or not
-        // card at top of stack, but not flipped over
-
-    // when you interact with a pile:
-        // drag a card from one pile to another eligible pile
-            // drag a card to an empty pile
-        // flip the card that's been exposed
-
-    // drag logic - to simply move card without taking into account values
-
-    // pick up the visible card off a pile
-    // drag and hover over new pile
-    // get the new pile id
-    // update the pile state with the new card
-    // redraw the piles
-
-    // displaying the pile
-        // after the initial deal, the top card should be exposed
 
     
     init();
