@@ -163,7 +163,7 @@
         }
 
         if(remainingDeck.length === 0){
-            deckBackDOMArea.style.display = "none";
+            deckBackDOMArea.style.visibility = "hidden";
         }
 
         const card = remainingDeckDisplay[0];
